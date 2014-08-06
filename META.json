@@ -28,11 +28,10 @@
       },
       "develop" : {
          "recommends" : {
-            "Dist::Zilla::PluginBundle::Author::ETHER" : "0.067"
+            "Dist::Zilla::PluginBundle::Author::ETHER" : "0.068"
          },
          "requires" : {
             "Dist::Zilla" : "5",
-            "Dist::Zilla::Plugin::ContributorsFromGit" : "0",
             "Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch" : "0.004",
             "Dist::Zilla::Plugin::Git::Commit" : "2.020",
             "Dist::Zilla::Plugin::Git::GatherDir" : "2.016",
@@ -51,7 +50,7 @@
             "Dist::Zilla::Plugin::Test::CleanNamespaces" : "0",
             "Dist::Zilla::Plugin::Test::Compile" : "2.039",
             "Dist::Zilla::Plugin::Test::MinimumVersion" : "2.000003",
-            "Dist::Zilla::PluginBundle::Author::ETHER" : "0",
+            "Dist::Zilla::PluginBundle::Author::ETHER" : "0.068",
             "File::Spec" : "0",
             "IO::Handle" : "0",
             "IPC::Open3" : "0",
@@ -95,7 +94,7 @@
    "provides" : {
       "MooseX::Types::Authen::Passphrase" : {
          "file" : "lib/MooseX/Types/Authen/Passphrase.pm",
-         "version" : "0.03"
+         "version" : "0.04"
       }
    },
    "release_status" : "stable",
@@ -113,7 +112,7 @@
       "x_IRC" : "irc://irc.perl.org/#moose",
       "x_MailingList" : "http://lists.perl.org/list/moose.html"
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.021001"
@@ -441,7 +440,7 @@
                      {
                         "class" : "Pod::Weaver::Section::Contributors",
                         "name" : "Contributors",
-                        "version" : "0.007"
+                        "version" : "0.007_001"
                      }
                   ]
                }
@@ -457,7 +456,7 @@
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
             "name" : "@Author::ETHER/ReadmeAnyFromPod",
-            "version" : "0.141760"
+            "version" : "0.142180"
          },
          {
             "class" : "Dist::Zilla::Plugin::GithubMeta",
@@ -507,6 +506,16 @@
             "class" : "Dist::Zilla::Plugin::Keywords",
             "name" : "@Author::ETHER/Keywords",
             "version" : "0.005"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Contributors",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Contributors" : {
+                  "include_authors" : "0"
+               }
+            },
+            "name" : "@Author::ETHER/Git::Contributors",
+            "version" : "0.002"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
@@ -583,8 +592,15 @@
          },
          {
             "class" : "Dist::Zilla::Plugin::Run::AfterBuild",
+            "config" : {
+               "Dist::Zilla::Plugin::Run::Role::Runner" : {
+                  "run" : [
+                     "bash -c \"if [[ `dirname %d` != .build ]]; then test -e .ackrc && grep -q -- '--ignore-dir=%d' .ackrc || echo '--ignore-dir=%d' >> .ackrc; fi; if [[ %d =~ ^%n-[.[:xdigit:]]+$ ]]; then rm -f .latest; ln -s %d .latest; fi\""
+                  ]
+               }
+            },
             "name" : "@Author::ETHER/Run::AfterBuild",
-            "version" : "0.022"
+            "version" : "0.023"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckStrictVersion",
@@ -640,11 +656,6 @@
             "version" : "0.012"
          },
          {
-            "class" : "Dist::Zilla::Plugin::TestRelease",
-            "name" : "@Author::ETHER/TestRelease",
-            "version" : "5.020"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::Git::Check",
             "config" : {
                "Dist::Zilla::Plugin::Git::Check" : {
@@ -679,8 +690,15 @@
          },
          {
             "class" : "Dist::Zilla::Plugin::Run::AfterRelease",
-            "name" : "@Author::ETHER/Run::AfterRelease",
-            "version" : "0.022"
+            "config" : {
+               "Dist::Zilla::Plugin::Run::Role::Runner" : {
+                  "run" : [
+                     "rm -f README.md"
+                  ]
+               }
+            },
+            "name" : "@Author::ETHER/remove old READMEs",
+            "version" : "0.023"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Commit",
@@ -716,7 +734,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "v0.03",
+                  "tag" : "v0.04",
                   "tag_format" : "v%v%t",
                   "tag_message" : "v%v%t",
                   "time_zone" : "local"
@@ -750,9 +768,14 @@
             "version" : "2.023"
          },
          {
-            "class" : "Dist::Zilla::Plugin::InstallRelease",
-            "name" : "@Author::ETHER/InstallRelease",
-            "version" : "0.008"
+            "class" : "Dist::Zilla::Plugin::Run::AfterRelease",
+            "config" : {
+               "Dist::Zilla::Plugin::Run::Role::Runner" : {
+                  "run" : "REDACTED"
+               }
+            },
+            "name" : "@Author::ETHER/install release",
+            "version" : "0.023"
          },
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
@@ -774,11 +797,6 @@
             "class" : "Dist::Zilla::Plugin::MetaResources",
             "name" : "MetaResources",
             "version" : "5.020"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::ContributorsFromGit",
-            "name" : "ContributorsFromGit",
-            "version" : "0.014"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::CheckBreaks",

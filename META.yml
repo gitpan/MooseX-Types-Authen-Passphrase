@@ -25,7 +25,7 @@ no_index:
 provides:
   MooseX::Types::Authen::Passphrase:
     file: lib/MooseX/Types/Authen/Passphrase.pm
-    version: '0.03'
+    version: '0.04'
 requires:
   Authen::Passphrase: '0'
   Authen::Passphrase::RejectAll: '0'
@@ -41,7 +41,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Authen-Passphrase
   homepage: https://github.com/moose/MooseX-Types-Authen-Passphrase
   repository: https://github.com/moose/MooseX-Types-Authen-Passphrase.git
-version: '0.03'
+version: '0.04'
 x_Dist_Zilla:
   perl:
     version: '5.021001'
@@ -299,7 +299,7 @@ x_Dist_Zilla:
             -
               class: Pod::Weaver::Section::Contributors
               name: Contributors
-              version: '0.007'
+              version: 0.007_001
       name: '@Author::ETHER/PodWeaver'
       version: '4.005'
     -
@@ -309,7 +309,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::ReadmeAnyFromPod
       name: '@Author::ETHER/ReadmeAnyFromPod'
-      version: '0.141760'
+      version: '0.142180'
     -
       class: Dist::Zilla::Plugin::GithubMeta
       name: '@Author::ETHER/GithubMeta'
@@ -347,6 +347,13 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::Keywords
       name: '@Author::ETHER/Keywords'
       version: '0.005'
+    -
+      class: Dist::Zilla::Plugin::Git::Contributors
+      config:
+        Dist::Zilla::Plugin::Git::Contributors:
+          include_authors: '0'
+      name: '@Author::ETHER/Git::Contributors'
+      version: '0.002'
     -
       class: Dist::Zilla::Plugin::AutoPrereqs
       name: '@Author::ETHER/AutoPrereqs'
@@ -402,8 +409,12 @@ x_Dist_Zilla:
       version: '0.007'
     -
       class: Dist::Zilla::Plugin::Run::AfterBuild
+      config:
+        Dist::Zilla::Plugin::Run::Role::Runner:
+          run:
+            - "bash -c \"if [[ `dirname %d` != .build ]]; then test -e .ackrc && grep -q -- '--ignore-dir=%d' .ackrc || echo '--ignore-dir=%d' >> .ackrc; fi; if [[ %d =~ ^%n-[.[:xdigit:]]+$ ]]; then rm -f .latest; ln -s %d .latest; fi\""
       name: '@Author::ETHER/Run::AfterBuild'
-      version: '0.022'
+      version: '0.023'
     -
       class: Dist::Zilla::Plugin::CheckStrictVersion
       name: '@Author::ETHER/CheckStrictVersion'
@@ -444,10 +455,6 @@ x_Dist_Zilla:
       name: '@Author::ETHER/CheckPrereqsIndexed'
       version: '0.012'
     -
-      class: Dist::Zilla::Plugin::TestRelease
-      name: '@Author::ETHER/TestRelease'
-      version: '5.020'
-    -
       class: Dist::Zilla::Plugin::Git::Check
       config:
         Dist::Zilla::Plugin::Git::Check:
@@ -474,8 +481,12 @@ x_Dist_Zilla:
       version: '0.001'
     -
       class: Dist::Zilla::Plugin::Run::AfterRelease
-      name: '@Author::ETHER/Run::AfterRelease'
-      version: '0.022'
+      config:
+        Dist::Zilla::Plugin::Run::Role::Runner:
+          run:
+            - 'rm -f README.md'
+      name: '@Author::ETHER/remove old READMEs'
+      version: '0.023'
     -
       class: Dist::Zilla::Plugin::Git::Commit
       config:
@@ -503,7 +514,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: v0.03
+          tag: v0.04
           tag_format: v%v%t
           tag_message: v%v%t
           time_zone: local
@@ -527,9 +538,12 @@ x_Dist_Zilla:
       name: '@Author::ETHER/Git::Push'
       version: '2.023'
     -
-      class: Dist::Zilla::Plugin::InstallRelease
-      name: '@Author::ETHER/InstallRelease'
-      version: '0.008'
+      class: Dist::Zilla::Plugin::Run::AfterRelease
+      config:
+        Dist::Zilla::Plugin::Run::Role::Runner:
+          run: REDACTED
+      name: '@Author::ETHER/install release'
+      version: '0.023'
     -
       class: Dist::Zilla::Plugin::ConfirmRelease
       name: '@Author::ETHER/ConfirmRelease'
@@ -546,10 +560,6 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::MetaResources
       name: MetaResources
       version: '5.020'
-    -
-      class: Dist::Zilla::Plugin::ContributorsFromGit
-      name: ContributorsFromGit
-      version: '0.014'
     -
       class: Dist::Zilla::Plugin::Test::CheckBreaks
       name: Test::CheckBreaks

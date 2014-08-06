@@ -2,8 +2,8 @@ package MooseX::Types::Authen::Passphrase;
 BEGIN {
   $MooseX::Types::Authen::Passphrase::AUTHORITY = 'cpan:NUFFIN';
 }
-# git description: v0.02-7-ga451c2f
-$MooseX::Types::Authen::Passphrase::VERSION = '0.03';
+# git description: v0.03-2-gbdb4541
+$MooseX::Types::Authen::Passphrase::VERSION = '0.04';
 # ABSTRACT: L<Authen::Passphrase> type constraint and coercions
 
 use strict;
@@ -58,7 +58,7 @@ MooseX::Types::Authen::Passphrase - L<Authen::Passphrase> type constraint and co
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
@@ -119,6 +119,8 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =head1 CONTRIBUTORS
+
+=for stopwords Brian Fraser Karen Etheridge Yuval Kogman
 
 =over 4
 
